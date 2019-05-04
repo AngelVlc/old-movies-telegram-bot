@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node lib/index.js",
-    "test": "jest",
+    "test": "jasmine",
     "build": "babel --watch --presets es2015 -d lib/ src"
   },
   "author": "",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-preset-es2015": "^6.24.1",
+    "jasmine": "^3.4.0"
   }
 }
