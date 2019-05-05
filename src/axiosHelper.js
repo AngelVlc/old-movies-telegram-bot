@@ -7,6 +7,10 @@ export default class AxiosHelper {
     });
   }
 
+  baseUrl() {
+    return this.axiosInstance.defaults.baseURL;
+  }
+
   async doPost(endpoint, postBody) {
     try {
       let result = await this.axiosInstance.post(endpoint, postBody);

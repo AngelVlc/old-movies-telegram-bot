@@ -22,9 +22,9 @@ describe('AnxiosHelper', () => {
     });
 
     it('should call axios post method', async () => {
-      spyOn(axiosHelper.axiosInstance, 'post').and.returnValue(Promise.resolve({ data: 'wadus' }));
+      const spy = spyOn(axiosHelper.axiosInstance, 'post').and.returnValue(Promise.resolve({ data: 'wadus' }));
       await axiosHelper.doPost(endPoint, body);
-      expect(axiosHelper.axiosInstance.post).toHaveBeenCalledWith(endPoint, body);
+      expect(spy).toHaveBeenCalledWith(endPoint, body);
     });
 
     it('should return the data if the request is valid', async () => {
