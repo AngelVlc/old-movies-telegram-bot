@@ -12,15 +12,21 @@ export default class AxiosHelper {
   }
 
   async doPost(endpoint, postBody) {
-    try {
-      let result = await this.axiosInstance.post(endpoint, postBody);
-      return result.data;
-    } catch (error) {
-      throw this.parseError(error);
-    }
+    const result = await this.axiosInstance.post(endpoint, postBody);
+    return result.data;
   }
 
-  parseError(error) {
-    return `Error ${error.response.status} - ${error.response.statusText}`;
+  async doGetWithAuth(endpoint, token) {
+    let result = await this.axiosInstance.get(endpoint, this.getAuthConfig(token));
+    return result.data;
+  }
+
+  getAuthConfig(token) {
+    return {
+      headers: {
+        'x-access-token': token,
+        'cache-control': 'no-cache'
+      }
+    };
   }
 }
