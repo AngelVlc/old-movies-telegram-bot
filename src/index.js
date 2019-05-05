@@ -1,10 +1,14 @@
-import Login from './login'
+import MoviesApiHelper from './moviesApiHelper'
 
 class Main {
   static async do() {
-    const login = new Login();
-    const token = await login.getToken();
-    console.log(`FFFFFFF ${token}`);
+    const apiHelper = new MoviesApiHelper();
+    try {
+      const token = await apiHelper.getToken();
+      console.log(`FFFFFFF ${token}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

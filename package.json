@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node lib/index.js",
-    "test": "jasmine",
+    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json",
     "build": "babel --watch --presets es2015 -d lib/ src"
   },
   "author": "",

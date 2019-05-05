@@ -1,6 +1,6 @@
 import AxiosHelper from './axiosHelper';
 
-class Login {
+export default class MoviesApiHelper {
   constructor() {
     this.axiosHelper = new AxiosHelper('https://peliculasangel.herokuapp.com');
   }
@@ -8,7 +8,7 @@ class Login {
   async getToken() {
     let result = await this.axiosHelper.doPost('/api/authenticate', {
       name: 'user',
-      password: 'Vcf'
+      password: 'Vf'
     });
     return result.token;
     // try {
@@ -25,5 +25,3 @@ class Login {
     
   }
 }
-
-export default Login;
