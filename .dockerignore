@@ -1,0 +1,6 @@
+.git
+lib
+node_modules
+.gitignore
+README.md
+Makefile
