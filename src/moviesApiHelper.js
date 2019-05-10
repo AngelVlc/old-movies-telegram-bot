@@ -19,19 +19,31 @@ export default class MoviesApiHelper {
     if (this.token === undefined) {
       await this.setToken();
     }
+    let getResult;
     try {
       const endpoint = this.getSearchEndpoint(titleToSearch);
-      const result = await this.axiosHelper.doGetWithAuth(endpoint, this.token);
-      return result;
+      getResult = await this.axiosHelper.doGetWithAuth(endpoint, this.token);
     } catch (error) {
       if (error.response.status === 401) {
         this.token = undefined;
       }
       throw error;
     }
+    return this.processSearchResult(getResult);
   }
 
   getSearchEndpoint(titleToSearch) {
     return '/api/films?title=' + encodeURIComponent(titleToSearch);
+  }
+
+  processSearchResult(apiResult) {
+    let result = [];
+    result.push(`${apiResult.length} found:`);
+
+    apiResult.forEach(element => {
+      result.push(`- ${element.title} (${element.locationName})`);
+    });
+
+    return result.join('\n\n');
   }
 }

@@ -2,22 +2,57 @@ import MoviesApiHelper from './moviesApiHelper'
 import EnvChecker from './envChecker'
 import TelegramBotApi from 'node-telegram-bot-api';
 
-class Main {
-  static async do() {
-    const apiHelper = new MoviesApiHelper('https://peliculasangel.herokuapp.com','user', 'Vcf');
-    try {
-      const result = await apiHelper.searchMovie('black');
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
-
 const envChecker = new EnvChecker();
 
 if (!envChecker.check()) {
   process.exit(1);
 }
-Main.do();
-process.exit(0);
+
+const apiHelper = new MoviesApiHelper('https://peliculasangel.herokuapp.com', 'user', 'Vcf');
+
+const bot = new TelegramBotApi(envChecker.config.BOT_ID, { polling: true });
+
+let lastCommand = '';
+
+bot.on('message', async (msg) => {
+  try {
+    const chatId = msg.chat.id;
+
+    if (msg.text.toLowerCase() === '/search') {
+      lastCommand = 'search';
+    }
+
+    const options = {
+      parse_mode: 'HTML'
+    };
+
+    switch (lastCommand) {
+      case 'search':
+        bot.sendMessage(chatId, 'Title to search:', options);
+        lastCommand = 'title';
+        break;
+
+      case 'title':
+        const title = msg.text;
+        lastCommand = '';
+        console.log(`search: '${title}' - chatId: '${chatId}`);
+        try {
+          let searchResult = await apiHelper.searchMovie(title);
+          bot.sendMessage(chatId, searchResult, options);
+        } catch (searchError) {
+          console.error(searchError);
+          bot.sendMessage(chatId, `ERROR: ${searchError}`, options);
+        }
+        break;
+
+      default:
+        const text = 'Valid commands:\n' +
+          '<b>/search</b>';
+        bot.sendMessage(chatId, text, options);
+        break;
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
+});

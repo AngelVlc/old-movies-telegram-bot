@@ -44,6 +44,7 @@ describe('MoviesApiHelper', () => {
 
     describe('searchMovie()', () => {
       it('should call setToken() if the token is undefined', async () => {
+        spyOn(helper, 'processSearchResult');
         const spy = spyOn(helper, 'setToken')
         spyOn(helper.axiosHelper, 'doGetWithAuth');
         await helper.searchMovie('title');
@@ -51,6 +52,7 @@ describe('MoviesApiHelper', () => {
       });
 
       it('should not call setToken() if the token is undefined', async () => {
+        spyOn(helper, 'processSearchResult');
         const spySetToken = spyOn(helper, 'setToken')
         helper.token = 'theToken';
         spyOn(helper.axiosHelper, 'doGetWithAuth');
@@ -60,6 +62,7 @@ describe('MoviesApiHelper', () => {
 
       it('should call getSearchEndpoint()', async () => {
         helper.token = 'theToken';
+        spyOn(helper, 'processSearchResult');
         spyOn(helper.axiosHelper, 'doGetWithAuth');
         const spyGetSearchEndPoint = spyOn(helper, 'getSearchEndpoint');
         await helper.searchMovie('title');
@@ -76,13 +79,33 @@ describe('MoviesApiHelper', () => {
         expect(helper.token).toEqual(undefined);
       });
 
-      it('should return the result of axiosHelper.doGetWithAuth() when the token is valid', async () => {
+      it('should return the lsit when the token is valid', async () => {
         helper.token = 'theToken';
-        spyOn(helper.axiosHelper, 'doGetWithAuth').and.returnValue(Promise.resolve([1, 2]));
+        const apiResult = [
+          { title: 'title1', locationName: 'loc1'},
+          { title: 'title2', locationName: 'loc2'}
+        ];
+        spyOn(helper.axiosHelper, 'doGetWithAuth').and.returnValue(Promise.resolve(apiResult));
         const result = await helper.searchMovie('title');
-        expect(result).toEqual([1, 2]);
+        expect(result).toContain('title1 (loc1)');
+        expect(result).toContain('title2 (loc2)');
       });
     });
+
+    describe('processSearchResult()', () => {
+      it('should parse the result from the api', () => {
+        const apiResult = [
+          { title: 'title1', locationName: 'loc1'},
+          { title: 'title2', locationName: 'loc2'},
+          { title: 'title3', locationName: 'loc3'}
+        ];
+
+        const result = helper.processSearchResult(apiResult);
+        expect(result).toContain('title1 (loc1)');
+        expect(result).toContain('title2 (loc2)');
+        expect(result).toContain('title3 (loc3)');
+      });
+    })
   });
 });
 
