@@ -21,3 +21,5 @@ WORKDIR $APP
 COPY . $APP
 COPY --from=base /app/lib ./lib/
 RUN npm install
+
+CMD ["npm", "start"]

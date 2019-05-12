@@ -1,5 +1,5 @@
 TEST_IMAGE_NAME="movies-telegram-bot-test"
-IMAGE_NAME="movies-telegram-bot-release"
+IMAGE_NAME="angelvlc/movies-telegram-bot-release"
 
 build:
 	docker build -t ${IMAGE_NAME} --target release --build-arg BOT_ID --build-arg API_BASE_URL --build-arg API_USER_NAME --build-arg API_USER_PASSWORD .
