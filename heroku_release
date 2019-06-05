@@ -1,5 +1,5 @@
 #!/bin/bash
- openssl aes-256-cbc -K $encrypted_9680f54dcb3a_key -iv $encrypted_9680f54dcb3a_iv -in .netrc.enc -out .netrc -d
+openssl aes-256-cbc -K $encrypted_9680f54dcb3a_key -iv $encrypted_9680f54dcb3a_iv -in .netrc.enc -out .netrc -d
 echo "$HEROKU_AUTH_TOKEN" | docker login --username=_ --password-stdin registry.heroku.com
 docker tag angelvlc/movies-telegram-bot-release registry.heroku.com/movies-telegram-bot/worker
 docker push registry.heroku.com/movies-telegram-bot/worker

@@ -1,18 +1,18 @@
 jobs:
   include:
-  # - stage: test
-  #   language: node_js
-  #   node_js:
-  #   - 10.11.0
-  #   script:
-  #   - make build-dev
-  #   - make test
-  - stage: build & deploy image
-    language: minimal
-    before_deploy:
-    - make build
-    deploy:
-      provider: script
-      script: bash heroku_release
-      on:
-        branch: master
+    - stage: test
+      language: node_js
+      node_js:
+      - 10.11.0
+      script:
+      - make build-dev
+      - make test
+    - stage: build & deploy image
+      language: minimal
+      before_deploy:
+      - make build
+      deploy:
+        provider: script
+        script: bash heroku_release
+        on:
+          branch: master
