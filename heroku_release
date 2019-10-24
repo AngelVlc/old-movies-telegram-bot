@@ -4,7 +4,5 @@ echo "$HEROKU_AUTH_TOKEN" | docker login --username=_ --password-stdin registry.
 docker tag angelvlc/movies-telegram-bot-release registry.heroku.com/movies-telegram-bot/worker
 docker push registry.heroku.com/movies-telegram-bot/worker
 mv .netrc ~/.netrc
-pwd
-cat ~/.netrc
 heroku container:login
 heroku container:release worker -a movies-telegram-bot
