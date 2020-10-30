@@ -1,9 +1,9 @@
 import MoviesApiHelper from './moviesApiHelper'
 import EnvChecker from './envChecker'
 import TelegramBotApi from 'node-telegram-bot-api';
+import Express from 'express';
 
 const envChecker = new EnvChecker();
-
 if (!envChecker.check()) {
   process.exit(1);
 }
@@ -56,3 +56,15 @@ bot.on('message', async (msg) => {
     console.error(error);
   }
 });
+
+const app = new Express()
+
+app.get('/', (req, res) => {
+  console.log('GET /')
+  res.send('Hello')
+})
+
+const port = envChecker.config.PORT
+app.listen(port, () => {
+  console.log(`Express listening at http://localhost:${port}`)
+})

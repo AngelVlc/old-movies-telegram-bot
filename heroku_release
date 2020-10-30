@@ -1,5 +1,0 @@
-#!/bin/bash
-heroku container:login
-docker tag angelvlc/movies-telegram-bot-release registry.heroku.com/movies-telegram-bot/worker
-docker push registry.heroku.com/movies-telegram-bot/worker
-heroku container:release worker -a movies-telegram-bot

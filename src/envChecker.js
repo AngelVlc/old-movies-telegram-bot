@@ -1,6 +1,7 @@
 export default class EnvChecker {
    check() {
     const envVarsNames = [
+      'PORT',
       'BOT_ID',
       'API_BASE_URL',
       'API_USER_NAME',
